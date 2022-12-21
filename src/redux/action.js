@@ -8,9 +8,17 @@ const getProducts = (Products) => ({
 const productDeleted = () => ({
     type: types.DELETE_PRODUCTS,
 })
-const productAdded = () => ({
-    type: types.ADD_PRODUCTS,
-})
+// const productAdded = () => ({
+//     type: types.ADD_PRODUCTS,
+// })
+
+export const addProduct = (product) => (dispatch) => {
+    console.log('action', product);
+    dispatch({
+        type: types.ADD_PRODUCTS,
+        payload: product,
+    });
+};
 
 export const loadProducts = () => {
     return function (dispatch) {
@@ -32,12 +40,6 @@ export const deleteProduct = (id) => {
 //         dispatch(productAdded(product))
 //     }
 // }
-export const addProduct = (product) => (dispatch) => {
-    dispatch({
-        type: types.ADD_PRODUCTS,
-        payload: product,
-    });
-};
 // export const addUsers = (user) => {
 //     return function (dispatch) {
 //         axios.post(`${process.env.REACT_APP_API}`, user)

@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+// import { createSlice } from '@reduxjs/toolkit'
 
-export const initialPayloadReducer = createSlice({
-    name: 'initialPayload',
-    initialState: {
-        payload: [],
-    },
-    reducers: {
-        addInitialPayload: (state, action) => {
-            console.log(action.payload);
-            state.payload = action.payload
-        },
-    },
-})
+// export const initialPayloadReducer = createSlice({
+//     name: 'initialPayload',
+//     initialState: {
+//         payload: [],
+//     },
+//     reducers: {
+//         addInitialPayload: (state, action) => {
+//             console.log(action.payload);
+//             state.payload = action.payload
+//         },
+//     },
+// })
 
-export const { addInitialPayload } = initialPayloadReducer.actions
+// export const { addInitialPayload } = initialPayloadReducer.actions
 
-export default initialPayloadReducer.reducer
+// export default initialPayloadReducer.reducer

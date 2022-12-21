@@ -16,10 +16,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { SubscribeTf, FooterTitle } from "../../styles/footer";
 import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";
-import Signup from "../../pages/signup";
 
 export default function Footer() {
-    const [SignupDialog, setSignupDialog] = useState(false)
     return (
         <Box
             sx={{
@@ -78,12 +76,12 @@ export default function Footer() {
                 <Grid item md={6} lg={2}>
                     <FooterTitle variant="body1">my account</FooterTitle>
                     <List>
-                        <ListItemText onClick={() => setSignupDialog(true)}
+                        {/* <ListItemText
                             sx={{ cursor: 'pointer' }}>
                             <Typography lineHeight={2} variant="caption2">
                                 Signup
                             </Typography>
-                        </ListItemText>
+                        </ListItemText> */}
                         <ListItemText>
                             <Typography lineHeight={2} variant="caption2">
                                 My Cart
@@ -119,9 +117,6 @@ export default function Footer() {
                     </Stack>
                 </Grid>
             </Grid>
-            {SignupDialog &&
-                <Signup
-                setSignupDialog={setSignupDialog} />}
         </Box>
     );
 }

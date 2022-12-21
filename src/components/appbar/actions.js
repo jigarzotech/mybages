@@ -3,11 +3,12 @@ import { MyList } from "../../styles/appbar";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { ActionIconsContainerDesktop, ActionIconsContainerMobile } from "../../styles/appbar";
 import { Colors } from "../../styles/theme";
-
+import { useNavigate } from "react-router-dom";
 export default function Actions({ matches }) {
-
+    const navigate = useNavigate()
     const Component = matches ? ActionIconsContainerMobile :
         ActionIconsContainerDesktop
     return (
@@ -17,7 +18,7 @@ export default function Actions({ matches }) {
                     sx={{
                         justifyContent: 'center'
                     }}>
-                    <ListItemIcon
+                    <ListItemIcon onClick={() => navigate('/mycart')}
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -52,7 +53,7 @@ export default function Actions({ matches }) {
                             color: matches && Colors.secondary
 
                         }}>
-                        <PersonIcon />
+                        <LogoutIcon onClick={() => localStorage.removeItem('email')} />
                     </ListItemIcon>
                 </ListItemButton>
                 <Divider orientation="vertical" flexItem />

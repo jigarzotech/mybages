@@ -13,8 +13,8 @@ import { addProduct } from "../../redux/action";
 export default function SingleProduct({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false)
     const dispatch = useDispatch()
-    const { user } = useSelector((state) => state.data)
-    // console.log({ user });
+    const { data } = useSelector((state) => state.data)
+    // console.log({ data });
     const handleMouseEnter = () => {
         setShowOptions(true)
     }

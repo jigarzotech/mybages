@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, Slide, Box, IconButton, DialogContent, Typography, Button, Paper } from "@mui/material";
+import { Dialog, FormControl, DialogTitle, Slide, Box, IconButton, DialogContent, Typography, Button, Paper, Input, InputAdornment } from "@mui/material";
 import { Colors } from "../../styles/theme";
 import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,9 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser, getUser } from "../../redux/user/action";
+
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -38,7 +41,13 @@ export default function Login({ setSignupDialog }) {
         email: "",
         password: ""
     })
+    useEffect(() => {
+        dispatch(getUser())
+    }, [])
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const useDetails = useSelector((state) => state.user)
+    console.log({ useDetails });
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState('')
     const { email, password } = user
@@ -69,7 +78,7 @@ export default function Login({ setSignupDialog }) {
         else {
             signInWithEmailAndPassword(auth, user.email, user.password)
                 .then((response) => {
-                    console.log('varified user', response);
+                    console.log('varified user', response.user.displayName);
                     toast.success('login Successfully', {
                         position: "top-center",
                         toastId: 'success2',
@@ -81,6 +90,8 @@ export default function Login({ setSignupDialog }) {
                         progress: undefined,
                         theme: "light",
                     });
+                    // localStorage.setItem('email', user.email);
+                    dispatch(addUser({ email: user.email, password: user.password }))
                 })
                 .catch((error) => {
                     console.log(error);
@@ -143,23 +154,49 @@ export default function Login({ setSignupDialog }) {
                         {error && <h3 style={{ color: 'red' }}>{error}</h3>}
                         <div>
                             <div>
-                                <TextField
-                                    id="standard-Email"
-                                    label="Email"
-                                    name="email"
-                                    value={email || ""}
-                                    type="email"
-                                    onChange={inputEvent}
-                                />
+                                <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
+                                    <Typography>Email:</Typography>
+
+                                    <Input
+                                        id="standard-Email"
+                                        name="email"
+                                        value={email || ""}
+                                        type="email"
+                                        onChange={inputEvent}
+                                    />
+                                </FormControl>
                             </div>
                             <div>
-                                <TextField
+                                <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
+
+                                    <Typography>Password:</Typography>
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        onChange={inputEvent}
+                                        value={password}
+                                        name='password'
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    onMouseDown={handleMouseDownPassword}
+
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+
+                                {/* <TextField
                                     id="standard-password-input"
                                     label="Password"
                                     name="password"
                                     value={password || ""}
                                     type={showPassword ? "text" : "password"}
                                     onChange={inputEvent}
+
                                 />
                                 <IconButton
                                     onClick={() => setShowPassword(!showPassword)}
@@ -169,8 +206,29 @@ export default function Login({ setSignupDialog }) {
                                     }}
                                 >
                                     {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
+                                </IconButton> */}
                             </div>
+
+                            {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                <Input
+                                    id="standard-adornment-password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={password || ""}
+                                    name="password"
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl> */}
 
                         </div>
                         <Button variant="contained" type='submit'
