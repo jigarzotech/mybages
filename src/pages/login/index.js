@@ -12,7 +12,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser, getUser } from "../../redux/user/action";
-
+import { addProducts, getProducts } from "../../redux/products/action";
+import { products } from '../../data'
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -43,11 +44,14 @@ export default function Login({ setSignupDialog }) {
     })
     useEffect(() => {
         dispatch(getUser())
+        dispatch(getProducts())
     }, [])
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const useDetails = useSelector((state) => state.user)
-    console.log({ useDetails });
+    // const useDetails = useSelector((state) => state.user)
+    // const productdetail = useSelector((state) => state.products)
+    // console.log({ productdetail });
+
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState('')
     const { email, password } = user
@@ -92,6 +96,8 @@ export default function Login({ setSignupDialog }) {
                     });
                     // localStorage.setItem('email', user.email);
                     dispatch(addUser({ email: user.email, password: user.password }))
+                    dispatch(addProducts(products))
+                    navigate('/home')
                 })
                 .catch((error) => {
                     console.log(error);
@@ -107,7 +113,7 @@ export default function Login({ setSignupDialog }) {
                         theme: "light",
                     });
                 });
-            console.log(user);
+            // console.log(user);
 
             setError('')
         }

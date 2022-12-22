@@ -12,14 +12,16 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
-import products from '../../data'
+import { useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
 }
 
 const ProductDetailWrapper = styled(Box)(({ theme }) => ({
     display: "flex",
-    padding: theme.spacing(4),
+    // padding: theme.spacing(4),
+    padding: '10px 0px'
 }));
 
 const ProductDetailInfoWrapper = styled(Box)(() => ({
@@ -29,14 +31,17 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
     lineHeight: 1.5,
 }));
 
-export default function MyCart({ open, onClose }) {
+export default function MyCart() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+
+    const { product } = useSelector((state) => state.productInCart)
+    console.log({ product });
     return (
         <Dialog
             TransitionComponent={SlideTransition}
             variant="permanant"
-            open={open}
+            open={true}
             fullScreen
         >
             <DialogTitle
@@ -49,28 +54,30 @@ export default function MyCart({ open, onClose }) {
                     alignItems="center"
                     justifyContent={"space-between"}
                 >
-                    Product title
-                    <IconButton onClick={onClose}>
+                    My Cart
+                    <IconButton
+                    // onClick={()=> nav}
+                    >
                         <CloseIcon />
                     </IconButton>
                 </Box>
             </DialogTitle>
-            {/* <DialogContent>
+            <DialogContent>
                 <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
                     <Product sx={{ mr: 4 }}>
-                        <ProductImage src={product[0].image} sx={{
+                        <ProductImage src={product.image} sx={{
                             height: "auto"
                         }} />
                     </Product>
                     <ProductDetailInfoWrapper>
                         <Typography variant="subtitle">Availability: 10 in stock</Typography>
                         <Typography sx={{ lineHeight: 2 }} variant="h4">
-                            {product[0].name}
+                            {product.name}
                         </Typography>
                         <Typography variant="body">
-                            {product[0].description}
-                            {product[0].description}
-                            {product[0].description}
+                            {product.description}
+                            {product.description}
+                            {product.description}
                         </Typography>
                         <Box
                             sx={{ mt: 4 }}
@@ -79,7 +86,7 @@ export default function MyCart({ open, onClose }) {
                             justifyContent="space-between"
                         >
                             <IncDec />
-                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Add to Cart</Button>
+                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Buy Now</Button>
                         </Box>
                         <Box
                             display="flex"
@@ -89,19 +96,57 @@ export default function MyCart({ open, onClose }) {
                             <FavoriteIcon sx={{ mr: 2 }} />
                             Add to wishlist
                         </Box>
-                        <Box
-                            sx={{
-                                mt: 4,
-                                color: Colors.dove_gray,
-                            }}
-                        >
-                            <FacebookIcon />
-                            <TwitterIcon sx={{ pl: 2 }} />
-                            <InstagramIcon sx={{ pl: 2 }} />
-                        </Box>
+
                     </ProductDetailInfoWrapper>
                 </ProductDetailWrapper>
-            </DialogContent> */}
+
+                <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
+                    <Product sx={{ mr: 4 }}>
+                        <ProductImage src={product.image} sx={{
+                            height: "auto"
+                        }} />
+                    </Product>
+                    <ProductDetailInfoWrapper>
+                        <Typography variant="subtitle">Availability: 10 in stock</Typography>
+                        <Typography sx={{ lineHeight: 2 }} variant="h4">
+                            {product.name}
+                        </Typography>
+                        <Typography variant="body">
+                            {product.description}
+                            {product.description}
+                            {product.description}
+                        </Typography>
+                        <Box
+                            sx={{ mt: 4 }}
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="space-between"
+                        >
+                            <IncDec />
+                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Buy Now</Button>
+                        </Box>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            sx={{ mt: 4, color: Colors.light }}
+                        >
+                            <FavoriteIcon sx={{ mr: 2 }} />
+                            Add to wishlist
+                        </Box>
+
+                    </ProductDetailInfoWrapper>
+                </ProductDetailWrapper>
+                <Box
+                    sx={{
+                        mt: 4,
+                        color: Colors.dove_gray,
+                    }}
+                >
+                    <FacebookIcon />
+                    <TwitterIcon sx={{ pl: 2 }} />
+                    <InstagramIcon sx={{ pl: 2 }} />
+                </Box>
+            </DialogContent>
         </Dialog>
     );
 }

@@ -4,16 +4,15 @@ import ProductMeta from "./productMeta";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductDetail from "../productdetail";
 import useDialogModal from '../../hooks/useDialogModal'
 import { useDispatch, useSelector } from 'react-redux'
-import { addProduct } from "../../redux/action";
-
+import {addCartItem,getCartItems} from '../../redux/cart/action'
 export default function SingleProduct({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false)
     const dispatch = useDispatch()
-    const { data } = useSelector((state) => state.data)
+    // const { data } = useSelector((state) => state.data)
     // console.log({ data });
     const handleMouseEnter = () => {
         setShowOptions(true)
@@ -23,7 +22,9 @@ export default function SingleProduct({ product, matches }) {
     }
     const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
         useDialogModal(ProductDetail);
-
+    useEffect(() => {
+        dispatch(getCartItems())
+    }, [])
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -34,7 +35,7 @@ export default function SingleProduct({ product, matches }) {
 
                 {showOptions &&
                     <ProductAddToCart show={showOptions} variant='contained'
-                        onClick={() => dispatch(addProduct(product))}>Add to cart</ProductAddToCart>}
+                        onClick={() => dispatch(addCartItem(product))}>Add to cart</ProductAddToCart>}
                 <ProductActionsWrapper show={showOptions}>
                     <Stack direction='column'>
                         <ProductActionButton>

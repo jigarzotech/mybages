@@ -5,7 +5,7 @@ import Actions from "./actions";
 import { useUIContext } from "../../context/ui";
 export default function AppbarDesktop({ matches }) {
 
-    const {  setShowSearchBox } = useUIContext();
+    const { setShowSearchBox } = useUIContext();
     return (
 
         <AppbarContainer>

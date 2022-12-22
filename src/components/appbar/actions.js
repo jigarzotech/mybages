@@ -7,8 +7,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { ActionIconsContainerDesktop, ActionIconsContainerMobile } from "../../styles/appbar";
 import { Colors } from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { deleteUser } from "../../redux/user/action";
+import { deleteProducts } from "../../redux/products/action";
+
 export default function Actions({ matches }) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const Component = matches ? ActionIconsContainerMobile :
         ActionIconsContainerDesktop
     return (
@@ -53,7 +58,11 @@ export default function Actions({ matches }) {
                             color: matches && Colors.secondary
 
                         }}>
-                        <LogoutIcon onClick={() => localStorage.removeItem('email')} />
+                        <LogoutIcon onClick={() => {
+                            dispatch(deleteUser())
+                            dispatch(deleteProducts())
+                        }
+                        } />
                     </ListItemIcon>
                 </ListItemButton>
                 <Divider orientation="vertical" flexItem />
