@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser, getUser } from "../../redux/user/action";
 import { addProducts, getProducts } from "../../redux/products/action";
 import { products } from '../../data'
+import { styled, ThemeProvider } from "@mui/material/styles";
+import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography } from "../../styles/form";
+import theme from '../../styles/theme'
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login({ setSignupDialog }) {
+export default function Login() {
     const classes = useStyles();
     const classesIcon = useStylesIcon();
     const [user, setUser] = useState({
@@ -97,7 +100,9 @@ export default function Login({ setSignupDialog }) {
                     // localStorage.setItem('email', user.email);
                     dispatch(addUser({ email: user.email, password: user.password }))
                     dispatch(addProducts(products))
-                    navigate('/home')
+                    setTimeout(() => {
+                        navigate('/home')
+                    }, 2000);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -119,83 +124,71 @@ export default function Login({ setSignupDialog }) {
         }
     }
     return (
-        <Dialog
-            TransitionComponent={SlideTransition}
-            variant="permanant"
-            open={true}
-            fullScreen
-        >
-            <DialogTitle
-                sx={{
-                    background: Colors.secondary,
-                }}
+        <ThemeProvider theme={theme}>
+            <Dialog
+                TransitionComponent={SlideTransition}
+                variant="permanant"
+                open={true}
+                fullScreen
             >
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent={"space-between"}
+                <DialogTitle
+                    sx={{
+                        background: Colors.secondary,
+                    }}
                 >
-                    Login
-
-                </Box>
-            </DialogTitle>
-            <DialogContent>
-                <Paper elevation={3} sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    margin: 'auto',
-                    width: '60%',
-                    padding: '50px 0px',
-                    marginTop: '50px'
-
-                }}>
-                    <form className={classes.root} noValidate autoComplete="off"
-                        onSubmit={submitDataHandler}
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            margin: 'auto',
-                            width: '60%',
-                        }}>
-                        {error && <h3 style={{ color: 'red' }}>{error}</h3>}
-                        <div>
+                    <FormBox >
+                        Login
+                    </FormBox>
+                </DialogTitle>
+                <DialogContent>
+                    <FormPaper elevation={3}>
+                        <form className={classes.root} noValidate autoComplete="off"
+                            onSubmit={submitDataHandler}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                margin: 'auto',
+                                width: '60%',
+                            }}>
+                            {error && <h3 style={{ color: 'red' }}>{error}</h3>}
                             <div>
-                                <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
-                                    <Typography>Email:</Typography>
+                                <div>
+                                    <LoginFormControl variant="outlined">
+                                        <Typography>Email:</Typography>
 
-                                    <Input
-                                        id="standard-Email"
-                                        name="email"
-                                        value={email || ""}
-                                        type="email"
-                                        onChange={inputEvent}
-                                    />
-                                </FormControl>
-                            </div>
-                            <div>
-                                <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
+                                        <Input
+                                            id="standard-Email"
+                                            name="email"
+                                            value={email || ""}
+                                            type="email"
+                                            onChange={inputEvent}
+                                        />
+                                    </LoginFormControl>
+                                </div>
+                                <div>
+                                    <LoginFormControl variant="outlined">
 
-                                    <Typography>Password:</Typography>
-                                    <Input
-                                        type={showPassword ? "text" : "password"}
-                                        onChange={inputEvent}
-                                        value={password}
-                                        name='password'
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    onMouseDown={handleMouseDownPassword}
+                                        <Typography>Password:</Typography>
+                                        <Input
+                                            type={showPassword ? "text" : "password"}
+                                            onChange={inputEvent}
+                                            value={password}
+                                            name='password'
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        onMouseDown={handleMouseDownPassword}
 
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
+                                                    >
+                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                        />
+                                    </LoginFormControl>
 
-                                {/* <TextField
+                                    {/* <TextField
                                     id="standard-password-input"
                                     label="Password"
                                     name="password"
@@ -213,9 +206,9 @@ export default function Login({ setSignupDialog }) {
                                 >
                                     {showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton> */}
-                            </div>
+                                </div>
 
-                            {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                                {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                                 <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                                 <Input
                                     id="standard-adornment-password"
@@ -236,40 +229,16 @@ export default function Login({ setSignupDialog }) {
                                 />
                             </FormControl> */}
 
-                        </div>
-                        <Button variant="contained" type='submit'
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                margin: 'auto',
-                                width: '60%',
-                                marginTop: '20px'
-                            }}>Submit</Button>
-                        <Typography lineHeight={2} variant="caption2" sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            margin: 'auto',
-                            color: Colors.info,
-                            marginTop: '20px',
-                            cursor: 'pointer'
-                        }} onClick={() => navigate('/signup')}>
-                            Sign up for mybages
-                        </Typography>
-                    </form>
-                    <ToastContainer
-                        position="top-center"
-                        autoClose={2000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                    />
-                </Paper>
-            </DialogContent>
-        </Dialog>
+                            </div>
+                            <FormButton variant="contained" type='submit'
+                            >Submit</FormButton>
+                            <FormTypography lineHeight={2} variant="caption2" onClick={() => navigate('/signup')}>
+                                Sign up for mybages
+                            </FormTypography>
+                        </form>
+                    </FormPaper>
+                </DialogContent>
+            </Dialog>
+        </ThemeProvider>
     )
 }

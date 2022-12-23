@@ -12,7 +12,7 @@ import { UIProvider } from '../../context/ui';
 import SearchBox from '../../components/search';
 function Home() {
     useEffect(() => {
-        document.title = "React Material UI DEMO"
+        document.title = "My Bages"
     }, [])
     return (
         <ThemeProvider theme={theme}>

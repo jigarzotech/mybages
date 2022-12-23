@@ -12,8 +12,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
+import { removeFromCart } from '../../redux/cart/cartReducer'
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
 }
@@ -34,9 +35,10 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
 export default function MyCart() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
-
-    const { product } = useSelector((state) => state.productInCart)
-    console.log({ product });
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const cartItems = useSelector((state) => state.carts)
+    console.log({ cartItems });
     return (
         <Dialog
             TransitionComponent={SlideTransition}
@@ -56,86 +58,52 @@ export default function MyCart() {
                 >
                     My Cart
                     <IconButton
-                    // onClick={()=> nav}
-                    >
+                        onClick={() => navigate('/home')}>
                         <CloseIcon />
                     </IconButton>
                 </Box>
             </DialogTitle>
             <DialogContent>
-                <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={{ mr: 4 }}>
-                        <ProductImage src={product.image} sx={{
-                            height: "auto"
-                        }} />
-                    </Product>
-                    <ProductDetailInfoWrapper>
-                        <Typography variant="subtitle">Availability: 10 in stock</Typography>
-                        <Typography sx={{ lineHeight: 2 }} variant="h4">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="body">
-                            {product.description}
-                            {product.description}
-                            {product.description}
-                        </Typography>
-                        <Box
-                            sx={{ mt: 4 }}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                        >
-                            <IncDec />
-                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Buy Now</Button>
-                        </Box>
-                        <Box
-                            display="flex"
-                            alignItems="center"
-                            sx={{ mt: 4, color: Colors.light }}
-                        >
-                            <FavoriteIcon sx={{ mr: 2 }} />
-                            Add to wishlist
-                        </Box>
+                {cartItems.carts?.map((item, index) => (
 
-                    </ProductDetailInfoWrapper>
-                </ProductDetailWrapper>
+                    <ProductDetailWrapper display={"flex"}
+                        flexDirection={matches ? "column" : "row"} key={index}>
+                        <Product sx={{ mr: 4 }}>
+                            <ProductImage src={item.image} sx={{
+                                height: "auto"
+                            }} />
+                        </Product>
+                        <ProductDetailInfoWrapper>
+                            <Typography variant="subtitle">Availability: 10 in stock</Typography>
+                            <Typography sx={{ lineHeight: 2 }} variant="h4">
+                                {item.name}
+                            </Typography>
+                            <Typography variant="subtitle">
+                                {item.price}
+                            </Typography>
+                            <Box
+                                sx={{ mt: 4 }}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                            >
+                                <IncDec cartQuantity={item.cardQuantity} />
+                                <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Buy Now</Button>
+                                <Button variant="contained" sx={{ ml: matches ? '0px' : '40px', background: 'red' }} onClick={() => dispatch(removeFromCart(item))}>Remove</Button>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                sx={{ mt: 4, color: Colors.light }}
+                            >
+                                <FavoriteIcon sx={{ mr: 2 }} />
+                                Add to wishlist
+                            </Box>
 
-                <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={{ mr: 4 }}>
-                        <ProductImage src={product.image} sx={{
-                            height: "auto"
-                        }} />
-                    </Product>
-                    <ProductDetailInfoWrapper>
-                        <Typography variant="subtitle">Availability: 10 in stock</Typography>
-                        <Typography sx={{ lineHeight: 2 }} variant="h4">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="body">
-                            {product.description}
-                            {product.description}
-                            {product.description}
-                        </Typography>
-                        <Box
-                            sx={{ mt: 4 }}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                        >
-                            <IncDec />
-                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Buy Now</Button>
-                        </Box>
-                        <Box
-                            display="flex"
-                            alignItems="center"
-                            sx={{ mt: 4, color: Colors.light }}
-                        >
-                            <FavoriteIcon sx={{ mr: 2 }} />
-                            Add to wishlist
-                        </Box>
+                        </ProductDetailInfoWrapper>
+                    </ProductDetailWrapper>
+                ))}
 
-                    </ProductDetailInfoWrapper>
-                </ProductDetailWrapper>
                 <Box
                     sx={{
                         mt: 4,

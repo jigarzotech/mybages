@@ -5,13 +5,15 @@ import { Colors } from "../../styles/theme";
 import styled from "@emotion/styled";
 import { ProductAddToCart, Product, ProductImage } from "../../styles/products";
 import { BannerShopButton } from "../../styles/banner";
-import IncDec from "../ui/incdec";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+import { useDispatch } from 'react-redux'
+import { addToCart } from "../../redux/cart/cartReducer";
+
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -32,6 +34,8 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
 export default function ProductDetail({ open, onClose, product }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+    const dispatch = useDispatch()
+
     return (
         <Dialog
             TransitionComponent={SlideTransition}
@@ -67,10 +71,11 @@ export default function ProductDetail({ open, onClose, product }) {
                         <Typography sx={{ lineHeight: 2 }} variant="h4">
                             {product.name}
                         </Typography>
-                        <Typography variant="body">
-                            {product.description}
-                            {product.description}
-                            {product.description}
+                        <Typography variant="subtitle">
+                            {product.discription}
+                        </Typography>
+                        <Typography sx={{ color: Colors.primary, paddingTop: '10px' }} variant="subtitle">
+                            {product.price}
                         </Typography>
                         <Box
                             sx={{ mt: 4 }}
@@ -78,8 +83,8 @@ export default function ProductDetail({ open, onClose, product }) {
                             alignItems="center"
                             justifyContent="space-between"
                         >
-                            <IncDec />
-                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}>Add to Cart</Button>
+                            <Button variant="contained" sx={{ ml: matches ? '0px' : '40px' }}
+                                onClick={() => dispatch(addToCart(product))}>Add to Cart</Button>
                         </Box>
                         <Box
                             display="flex"

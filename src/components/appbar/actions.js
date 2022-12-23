@@ -2,7 +2,6 @@ import { Divider, ListItemButton, ListItemIcon } from "@mui/material";
 import { MyList } from "../../styles/appbar";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { ActionIconsContainerDesktop, ActionIconsContainerMobile } from "../../styles/appbar";
 import { Colors } from "../../styles/theme";

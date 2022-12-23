@@ -8,12 +8,12 @@ import { useEffect, useState } from "react";
 import ProductDetail from "../productdetail";
 import useDialogModal from '../../hooks/useDialogModal'
 import { useDispatch, useSelector } from 'react-redux'
-import {addCartItem,getCartItems} from '../../redux/cart/action'
+import { addToCart } from '../../redux/cart/cartReducer'
+import { toast } from "react-toastify";
+
 export default function SingleProduct({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false)
     const dispatch = useDispatch()
-    // const { data } = useSelector((state) => state.data)
-    // console.log({ data });
     const handleMouseEnter = () => {
         setShowOptions(true)
     }
@@ -22,9 +22,9 @@ export default function SingleProduct({ product, matches }) {
     }
     const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
         useDialogModal(ProductDetail);
-    useEffect(() => {
-        dispatch(getCartItems())
-    }, [])
+    const AddtoCartHandler = () => {
+        dispatch(addToCart(product))
+    }
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -35,7 +35,7 @@ export default function SingleProduct({ product, matches }) {
 
                 {showOptions &&
                     <ProductAddToCart show={showOptions} variant='contained'
-                        onClick={() => dispatch(addCartItem(product))}>Add to cart</ProductAddToCart>}
+                        onClick={() => AddtoCartHandler()}>Add to cart</ProductAddToCart>}
                 <ProductActionsWrapper show={showOptions}>
                     <Stack direction='column'>
                         <ProductActionButton>

@@ -4,6 +4,7 @@ export const products = [
         name: 'Super backpack',
         price: 129.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag1.jpeg')
     },
     {
@@ -11,6 +12,7 @@ export const products = [
         name: 'backpack',
         price: 149.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag2.jpeg')
     },
     {
@@ -18,6 +20,7 @@ export const products = [
         name: 'Collage bag',
         price: 100.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag3.jpeg')
     },
     {
@@ -25,6 +28,7 @@ export const products = [
         name: 'Shopping bag',
         price: 159.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag4.jpeg')
     },
     {
@@ -32,6 +36,7 @@ export const products = [
         name: 'kid bag',
         price: 99.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag5.jpeg')
     },
     {
@@ -39,6 +44,7 @@ export const products = [
         name: 'School bag',
         price: 109.99,
         discription: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa',
+        cardQuantity: 1,
         image: require('../image/bag6.jpeg')
     },
 ]
