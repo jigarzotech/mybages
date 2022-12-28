@@ -12,7 +12,7 @@ export default function Appbar() {
     const useDetails = useSelector((state) => state.user)
     return (
         <>
-            <AppbarUser>Welcome {useDetails.user.email}</AppbarUser>
+            <AppbarUser>Welcome {useDetails.user.name}</AppbarUser>
             {matches ? <AppbarMobile matches={matches} /> : <AppbarDesktop matches={matches} />}
         </>
     )

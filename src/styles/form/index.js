@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Button, FormControl, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Colors } from "../theme";
-
+import '../appbar/style.css'
 
 export const LoginFormControl = styled(FormControl)(({ theme }) => ({
     m: 1,
@@ -16,10 +16,12 @@ export const FormBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: '60%',
+    fontSize: '2em',
+    color: Colors.secondary,
     [theme.breakpoints.down('sm')]: {
         width: '70%',
     },
-
+    fontFamily: `'Montez','cursive`,
 }))
 export const FormPaper = styled(Paper)(() => ({
     display: "flex",
@@ -27,7 +29,7 @@ export const FormPaper = styled(Paper)(() => ({
     margin: 'auto',
     width: '60%',
     padding: '50px 0px',
-    marginTop: '50px'
+    marginTop: '20px'
 
 }))
 export const FormButton = styled(Button)(() => ({
@@ -41,7 +43,24 @@ export const FormTypography = styled(Typography)(() => ({
     display: "flex",
     justifyContent: "center",
     margin: 'auto',
-    color: Colors.info,
+    color: Colors.form,
     marginTop: '20px',
     cursor: 'pointer'
+}))
+
+export const FormHeader = styled(Typography)(() => ({
+    display: "flex",
+    justifyContent: "center",
+    margin: 'auto',
+    color: Colors.secondary,
+    marginTop: '20px',
+    fontFamily: `'Montez','cursive`,
+
+}))
+export const FormError = styled(Typography)(() => ({
+    display: "flex",
+    color: Colors.danger,
+    marginTop: '5px',
+    marginBottom: '10px',
+    fontSize: '12px'
 }))

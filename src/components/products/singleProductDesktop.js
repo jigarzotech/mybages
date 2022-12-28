@@ -10,10 +10,12 @@ import useDialogModal from '../../hooks/useDialogModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../redux/cart/cartReducer'
 import { toast } from "react-toastify";
+import { addToWishlist, removeFromWishlist } from "../../redux/wishlist/wishlistReducer";
 
 export default function SingleProduct({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false)
     const dispatch = useDispatch()
+    const wishlistProduct = useSelector((state) => state.wishlist)
     const handleMouseEnter = () => {
         setShowOptions(true)
     }
@@ -29,7 +31,12 @@ export default function SingleProduct({ product, matches }) {
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <ProductImage src={product.image} />
-                <ProductFavButton isFav={0}>
+                <ProductFavButton
+                    isFav={wishlistProduct.wishlists.find((item) => item.id === product.id) ? 1 : 0}
+                    onClick={() => {
+                        wishlistProduct.wishlists.find((item) => item.id === product.id) ?
+                            dispatch(removeFromWishlist(product)) : dispatch(addToWishlist(product))
+                    }}>
                     <FavoriteIcon />
                 </ProductFavButton>
 

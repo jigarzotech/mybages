@@ -7,24 +7,17 @@ import FitScreenIcon from "@mui/icons-material/FitScreen";
 import ProductDetail from "../productdetail";
 import useDialogModal from '../../hooks/useDialogModal'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from "react";
 import { addToCart } from '../../redux/cart/cartReducer'
-import { toast } from "react-toastify";
+import { addToWishlist, removeFromWishlist } from "../../redux/wishlist/wishlistReducer";
 export default function SingleProduct({ product, matches }) {
     const dispatch = useDispatch()
-    const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
+    const [ProductDetailDialog, showProductDetailDialog] =
         useDialogModal(ProductDetail);
 
-    const cartDetails = useSelector((state) => state.carts)
-    console.log({ cartDetails });
-    const AddtoCartHandler = () => {
-        // cart = [cartDetails, product]
-        // setcarts((old) => {
-        //     return ([...old, product])
-        // })
+    const wishlistProduct = useSelector((state) => state.wishlist)
 
+    const AddtoCartHandler = () => {
         dispatch(addToCart(product))
-        // dispatch(addCartItem(cart))
     }
     return (
         <>
@@ -33,7 +26,10 @@ export default function SingleProduct({ product, matches }) {
                 <ProductMeta product={product} matches={matches} />
                 <ProductActionsWrapper>
                     <Stack direction='row'>
-                        <ProductFavButton isFav={0}>
+                        <ProductFavButton isFav={wishlistProduct.wishlists.find((item) => item.id === product.id) ? 1 : 0}
+                            onClick={() => {
+                                wishlistProduct.wishlists.find((item) => item.id === product.id) ? dispatch(removeFromWishlist(product)) : dispatch(addToWishlist(product))
+                            }}>
                             <FavoriteIcon />
                         </ProductFavButton>
                         <ProductActionButton>

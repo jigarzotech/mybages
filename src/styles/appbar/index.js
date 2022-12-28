@@ -17,6 +17,7 @@ export const AppbarUser = styled(Typography)(() => ({
     color: Colors.primary,
     position: 'absolute',
     right: 40,
+    textTransform: 'capitalize',
     ['@media (max-width:450px)']: {
         fontSize: '12px',
     },

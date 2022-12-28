@@ -11,12 +11,14 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser, getUser } from "../../redux/user/action";
-import { addProducts, getProducts } from "../../redux/products/action";
+// import { addUser, getUser } from "../../redux/user/action";
+import { addProducts, getProducts } from "../../redux/products/productReducer";
+import { addUser } from "../../redux/user/userReducer";
 import { products } from '../../data'
 import { styled, ThemeProvider } from "@mui/material/styles";
-import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography } from "../../styles/form";
+import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography, FormHeader } from "../../styles/form";
 import theme from '../../styles/theme'
+import { loginError, loginErrorToast, loginInvalidError, loginInvalidErrorToast, loginSuccess, loginSuccessToast } from "../../components/toast/toastMessage";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -46,7 +48,7 @@ export default function Login() {
         password: ""
     })
     useEffect(() => {
-        dispatch(getUser())
+        // dispatch(getUser())
         dispatch(getProducts())
     }, [])
     const navigate = useNavigate()
@@ -70,53 +72,23 @@ export default function Login() {
     const submitDataHandler = (event) => {
         event.preventDefault()
         if (!email || !password) {
-            toast.error('please input all the input field', {
-                position: "top-center",
-                toastId: 'error2',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            toast.error(loginError, loginErrorToast);
         }
         else {
             signInWithEmailAndPassword(auth, user.email, user.password)
                 .then((response) => {
                     console.log('varified user', response.user.displayName);
-                    toast.success('login Successfully', {
-                        position: "top-center",
-                        toastId: 'success2',
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    toast.success(loginSuccess, loginSuccessToast);
                     // localStorage.setItem('email', user.email);
-                    dispatch(addUser({ email: user.email, password: user.password }))
+                    dispatch(addUser({ name: response.user.displayName, email: user.email, password: user.password }))
                     dispatch(addProducts(products))
                     setTimeout(() => {
                         navigate('/home')
-                    }, 2000);
+                    }, 2500);
                 })
                 .catch((error) => {
                     console.log(error);
-                    toast.error('FirebaseError', {
-                        position: "top-center",
-                        toastId: 'error4',
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    toast.error(loginInvalidError, loginInvalidErrorToast);
                 });
             // console.log(user);
 
@@ -132,15 +104,14 @@ export default function Login() {
                 fullScreen
             >
                 <DialogTitle
-                    sx={{
-                        background: Colors.secondary,
-                    }}
-                >
-                    <FormBox >
-                        Login
+                    sx={{ background: Colors.primary }}>
+                    <FormBox>
+                        My Bages
                     </FormBox>
                 </DialogTitle>
                 <DialogContent>
+                    <FormHeader variant="h2">Login</FormHeader>
+
                     <FormPaper elevation={3}>
                         <form className={classes.root} noValidate autoComplete="off"
                             onSubmit={submitDataHandler}
@@ -154,7 +125,7 @@ export default function Login() {
                             <div>
                                 <div>
                                     <LoginFormControl variant="outlined">
-                                        <Typography>Email:</Typography>
+                                        <Typography color={Colors.info} mt={1}>Email:</Typography>
 
                                         <Input
                                             id="standard-Email"
@@ -168,7 +139,7 @@ export default function Login() {
                                 <div>
                                     <LoginFormControl variant="outlined">
 
-                                        <Typography>Password:</Typography>
+                                        <Typography color={Colors.info} mt={1}>Password:</Typography>
                                         <Input
                                             type={showPassword ? "text" : "password"}
                                             onChange={inputEvent}

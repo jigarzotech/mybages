@@ -10,15 +10,6 @@ export default function Products() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    // useEffect(() => {
-    //     FetchData()
-    // }, [])
-    // const FetchData = axios.get('https://my-bages-default-rtdb.firebaseio.com').
-    //     then((res) => {
-    //         console.log(res);
-    //     }).catch((err) => {
-    //         console.log(err);
-    //     })
     const renderProducts = products.map(product => (
         <Grid item key={product.id} xs={2} sm={4} md={4} display="flex" flexDirection={'column'} alignItems="center">
             {

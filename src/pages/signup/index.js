@@ -1,18 +1,21 @@
 import { Dialog, DialogTitle, Slide, Box, IconButton, DialogContent, Typography, Button, Stack, Paper, Input, InputAdornment } from "@mui/material";
 import { Colors } from "../../styles/theme";
 import React, { useState, useEffect } from 'react'
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../firebase'
 import { useNavigate } from 'react-router-dom';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography } from "../../styles/form";
-import { styled, ThemeProvider } from "@mui/material/styles";
+import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography, FormError, FormHeader } from "../../styles/form";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from '../../styles/theme'
+import { useForm } from "react-hook-form";
+import { defaultValues, errorMessage, validationSchema } from "../../components/validation";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signupInvalidError, signupInvalidErrorToast, signupSuccess, signupSuccessToast } from "../../components/toast/toastMessage";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -34,102 +37,52 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Signup({ setSignupDialog }) {
+export default function Signup() {
     const classes = useStyles();
-    const classesIcon = useStylesIcon();
-    const [newUser, setNewUser] = useState({
-        name: "",
-        email: "",
-        password: ""
-    })
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
-    const nameRegex = new RegExp(/^[a-zA-Z ]+$/i);
-    const emailRegex = new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i)
-    const passRegex = new RegExp(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{6,}$/)
+    const { register, formState: { errors }, handleSubmit, watch } = useForm({
+        defaultValues: defaultValues, resolver: yupResolver(validationSchema)
+    });
+    // const onSubmit = data => console.log(data);
+    console.log(errors);
 
-    const [error, setError] = useState({
-        name: "",
-        email: "",
-        password: ""
-    })
-    const [IsErrorShow, SetIsErrorShow] = useState(false)
-    // const { name, email, password } = newUser
-    const inputEvent = (e) => {
-        let { value, name } = e.target
-        setNewUser((olddata) => {
-            return { ...olddata, [name]: value }
-        })
-    }
+    const submitDataHandler = (data) => {
+        // // event.preventDefault()
+        // if (data.name === "" || data.email === "" || data.password === "") {
+        //     // toast.error('please input all the input field', {
+        //     //     position: "top-center",
+        //     //     toastId: 'error1',
+        //     //     autoClose: 2000,
+        //     //     hideProgressBar: false,
+        //     //     closeOnClick: true,
+        //     //     pauseOnHover: true,
+        //     //     draggable: true,
+        //     //     progress: undefined,
+        //     //     theme: "light",
+        //     // });
 
-    const submitDataHandler = (event) => {
-        event.preventDefault()
-        if (!newUser.name || !newUser.email || !newUser.password) {
-            toast.error('please input all the input field', {
-                position: "top-center",
-                toastId: 'error1',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-        else if (!nameRegex.test(newUser.name)) {
-            setError({ name: "Enter Name Properly" })
-            SetIsErrorShow(true)
-        }
-        else if (!emailRegex.test(newUser.email)) {
-            setError({ email: "Enter Email Properly" })
-            SetIsErrorShow(true)
-        }
-        // else if (!passRegex.test(newUser.password)) {
-        //     setError({ password: "Enter Password Properly" })
-        //     SetIsErrorShow(true)
         // }
-        else {
-            // createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
-            //     .then((response) => {
-            //         const user = response.user
-            //         updateProfile(user, {
-            //             displayName: newUser.name
-            //         })
-            //         console.log('data is sent to Firebase', response);
-            // toast.success('Signup Successfully', {
-            //     position: "top-center",
-            //     toastId: 'success1',
-            //     autoClose: 2000,
-            //     hideProgressBar: false,
-            //     closeOnClick: true,
-            //     pauseOnHover: true,
-            //     draggable: true,
-            //     progress: undefined,
-            //     theme: "light",
-            // });
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            // toast.error('FirebaseError', {
-            //     position: "top-center",
-            //     toastId: 'error3',
-            //     autoClose: 2000,
-            //     hideProgressBar: false,
-            //     closeOnClick: true,
-            //     pauseOnHover: true,
-            //     draggable: true,
-            //     progress: undefined,
-            //     theme: "light",
-            // });
-            //     });
 
-            console.log(newUser);
-            setError('')
-            SetIsErrorShow(false)
-        }
+        // else {
+        createUserWithEmailAndPassword(auth, data.email, data.password)
+            .then((response) => {
+                const user = response.user
+                updateProfile(user, {
+                    displayName: data.name
+                })
+                console.log('data is sent to Firebase', response);
+                console.log(data);
+                toast.success(signupSuccess, signupSuccessToast);
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error(signupInvalidError, signupInvalidErrorToast);
+            });
+        // }
+        console.log(data);
+
     }
-
     return (
         <ThemeProvider theme={theme}>
             <Dialog
@@ -139,57 +92,68 @@ export default function Signup({ setSignupDialog }) {
                 fullScreen
             >
                 <DialogTitle
-                    sx={{
-                        background: Colors.secondary,
-                    }}
-                >
+                    sx={{ background: Colors.primary }}>
                     <FormBox>
-                        Signup
+                        My Bages
                     </FormBox>
                 </DialogTitle>
                 <DialogContent>
+                    <FormHeader variant="h2">Signup</FormHeader>
                     <FormPaper elevation={3}>
-                        <form className={classes.root} noValidate autoComplete="off" >
-                            {IsErrorShow && <h3 style={{ color: 'red' }}>{error}</h3>}
+                        <form className={classes.root} noValidate autoComplete="off"
+                            onSubmit={handleSubmit(submitDataHandler)}>
 
                             <div>
                                 <div>
                                     <LoginFormControl variant="outlined">
-                                        <Typography>Name:</Typography>
+                                        <Typography color={Colors.info} mt={1}>Name:</Typography>
                                         <Input
-                                            id="standard-Email"
-                                            label="Name"
-                                            name="name"
-                                            value={newUser.name || ""}
-                                            type="text"
-                                            onChange={inputEvent}
+                                            // id="standard-Email"
+                                            // label="Name"
+                                            // name="name"
+                                            // value={newUser.name || ""}
+                                            // type="text"
+                                            // onChange={inputEvent}
+                                            {...register("name")}
+                                            placeholder='Enter Your Name'
                                         />
+
+                                        {errors.name && <FormError role="alert">
+                                            {errorMessage.name}</FormError>}
                                     </LoginFormControl>
                                 </div>
                                 <div>
                                     <LoginFormControl variant="outlined">
-                                        <Typography>Email:</Typography>
+                                        <Typography color={Colors.info} mt={1}>Email:</Typography>
 
                                         <Input
-                                            id="standard-email"
-                                            label="Email"
-                                            name="email"
-                                            value={newUser.email || ""}
-                                            type="email"
-                                            onChange={inputEvent}
+                                            // id="standard-email"
+                                            // label="Email"
+                                            // name="email"
+                                            // value={newUser.email || ""}
+                                            // type="email"
+                                            // onChange={inputEvent}
+
+                                            {...register("email")}
+                                            placeholder='Enter Your Email'
                                         />
+                                        {errors?.email && <FormError role="alert">{errorMessage.email}</FormError>}
+
                                     </LoginFormControl>
 
                                 </div>
                                 <div>
                                     <LoginFormControl variant="outlined">
 
-                                        <Typography>Password:</Typography>
+                                        <Typography color={Colors.info} mt={1}>Password:</Typography>
                                         <Input
-                                            name="password"
-                                            value={newUser.password || ""}
+                                            // name="password"
+                                            // value={newUser.password || ""}
+                                            // type={showPassword ? "text" : "password"}
+                                            // onChange={inputEvent}
+                                            {...register("password")}
+                                            placeholder='Enter Password'
                                             type={showPassword ? "text" : "password"}
-                                            onChange={inputEvent}
                                             endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -200,12 +164,16 @@ export default function Signup({ setSignupDialog }) {
                                                 </InputAdornment>
                                             }
                                         />
+                                        {errors?.password && <FormError role="alert">
+                                            {errorMessage.password}
+                                        </FormError>}
                                     </LoginFormControl>
 
                                 </div>
-
                             </div>
-                            <FormButton variant="contained" onClick={submitDataHandler}>
+
+                            <FormButton variant="contained"
+                                type="submit">
                                 Submit</FormButton>
                             <FormTypography lineHeight={2} variant="caption2"
                                 onClick={() => navigate('/')}>
@@ -215,6 +183,6 @@ export default function Signup({ setSignupDialog }) {
                     </FormPaper>
                 </DialogContent>
             </Dialog>
-        </ThemeProvider>
+        </ThemeProvider >
     )
 }

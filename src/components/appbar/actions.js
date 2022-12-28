@@ -7,8 +7,8 @@ import { ActionIconsContainerDesktop, ActionIconsContainerMobile } from "../../s
 import { Colors } from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
-import { deleteUser } from "../../redux/user/action";
-import { deleteProducts } from "../../redux/products/action";
+import { deleteUser } from "../../redux/user/userReducer";
+import { deleteProducts } from "../../redux/products/productReducer";
 
 export default function Actions({ matches }) {
     const navigate = useNavigate()
@@ -37,6 +37,7 @@ export default function Actions({ matches }) {
                         justifyContent: 'center'
                     }}>
                     <ListItemIcon
+                        onClick={() => navigate('/mywishlist')}
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -60,6 +61,7 @@ export default function Actions({ matches }) {
                         <LogoutIcon onClick={() => {
                             dispatch(deleteUser())
                             dispatch(deleteProducts())
+                            navigate('/')
                         }
                         } />
                     </ListItemIcon>

@@ -67,7 +67,7 @@ export default function ProductDetail({ open, onClose, product }) {
                         }} />
                     </Product>
                     <ProductDetailInfoWrapper>
-                        <Typography variant="subtitle">Availability: 10 in stock</Typography>
+                        <Typography variant="subtitle" mt={1}>Availability: 10 in stock</Typography>
                         <Typography sx={{ lineHeight: 2 }} variant="h4">
                             {product.name}
                         </Typography>
@@ -75,7 +75,7 @@ export default function ProductDetail({ open, onClose, product }) {
                             {product.discription}
                         </Typography>
                         <Typography sx={{ color: Colors.primary, paddingTop: '10px' }} variant="subtitle">
-                            {product.price}
+                            Price: ${product.price}
                         </Typography>
                         <Box
                             sx={{ mt: 4 }}

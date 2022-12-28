@@ -10,8 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Colors } from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
-import { deleteUser } from "../../redux/user/action";
-import { deleteProducts } from "../../redux/products/action";
+import { deleteUser } from "../../redux/user/userReducer";
+import { deleteProducts } from "../../redux/products/productReducer";
 import PersonIcon from '@mui/icons-material/Person';
 import { AppbarPersonBtn } from '../../styles/appbar';
 
@@ -47,6 +47,7 @@ export default function ActionMobile() {
                                 justifyContent: 'center'
                             }}>
                             <ListItemIcon
+                                onClick={() => navigate('/mywishlist')}
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
@@ -69,6 +70,7 @@ export default function ActionMobile() {
                                 <LogoutIcon onClick={() => {
                                     dispatch(deleteUser())
                                     dispatch(deleteProducts())
+                                    navigate('/')
                                 }
                                 } />
                             </ListItemIcon>

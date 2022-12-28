@@ -1,13 +1,5 @@
 import styled from "@emotion/styled";
-import {
-    Grid,
-    List,
-    ListItemText,
-    Typography,
-    Button,
-    Stack,
-    Container,
-} from "@mui/material";
+import { Grid, List, ListItemText, Typography, Button, Stack, Container } from "@mui/material";
 import { Box } from "@mui/system";
 import { Colors } from "../../styles/theme";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -16,8 +8,11 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { SubscribeTf, FooterTitle } from "../../styles/footer";
 import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
+
+    const navigate = useNavigate()
     return (
         <Box
             sx={{
@@ -83,7 +78,10 @@ export default function Footer() {
                             </Typography>
                         </ListItemText> */}
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => navigate('/mycart')}
+                                lineHeight={2} variant="caption2">
                                 My Cart
                             </Typography>
                         </ListItemText>
@@ -93,7 +91,10 @@ export default function Footer() {
                             </Typography>
                         </ListItemText>
                         <ListItemText>
-                            <Typography lineHeight={2} variant="caption2">
+                            <Typography
+                                sx={{ cursor: 'pointer' }}
+                                onClick={() => navigate('/mywishlist')}
+                                lineHeight={2} variant="caption2">
                                 Wishlist
                             </Typography>
                         </ListItemText>
