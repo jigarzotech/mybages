@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 import { darken, lighten } from "polished";
+import { CssBaseline } from "@material-ui/core/styles";
 
 export const DrawerWidth = 250;
 
@@ -98,6 +99,20 @@ const theme = createTheme({
                 },
             },
         },
+        MuiCssBaseline: {
+            "@global": {
+                "*::-webkit-scrollbar": {
+                    width: "5px"
+                },
+                "*::-webkit-scrollbar-track": {
+                    background: "#E4EFEF"
+                },
+                "*::-webkit-scrollbar-thumb": {
+                    background: "#1D388F61",
+                    borderRadius: "2px"
+                }
+            }
+        }
     },
 });
 

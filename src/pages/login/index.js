@@ -19,6 +19,7 @@ import { styled, ThemeProvider } from "@mui/material/styles";
 import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography, FormHeader } from "../../styles/form";
 import theme from '../../styles/theme'
 import { loginError, loginErrorToast, loginInvalidError, loginInvalidErrorToast, loginSuccess, loginSuccessToast } from "../../components/toast/toastMessage";
+import Header from "../../components/header.js";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -105,9 +106,8 @@ export default function Login() {
             >
                 <DialogTitle
                     sx={{ background: Colors.primary }}>
-                    <FormBox>
-                        My Bages
-                    </FormBox>
+                    
+                    <Header />
                 </DialogTitle>
                 <DialogContent>
                     <FormHeader variant="h2">Login</FormHeader>

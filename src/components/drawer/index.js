@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { DrawerCloseButton } from "../../styles/appbar";
 import { lighten } from "polished";
 import { Colors } from "../../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 const MiddleDivider = styled((props) => (
     <Divider variant="middle" {...props} />
@@ -12,6 +13,7 @@ const MiddleDivider = styled((props) => (
 
 export default function AppDrawer() {
     const { drawerOpen, setDrawerOpen } = useUIContext();
+    const navigate = useNavigate()
 
     return (
         <>
@@ -28,7 +30,7 @@ export default function AppDrawer() {
             <Drawer open={drawerOpen}>
 
                 <List>
-                    <ListItemButton>
+                    <ListItemButton onClick={() => navigate('/home')}>
                         <ListItemText>Home</ListItemText>
                     </ListItemButton>
                     <MiddleDivider />

@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { defaultValues, errorMessage, validationSchema } from "../../components/validation";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupInvalidError, signupInvalidErrorToast, signupSuccess, signupSuccessToast } from "../../components/toast/toastMessage";
+import Header from "../../components/header.js";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -93,9 +94,10 @@ export default function Signup() {
             >
                 <DialogTitle
                     sx={{ background: Colors.primary }}>
-                    <FormBox>
+                    {/* <FormBox>
                         My Bages
-                    </FormBox>
+                    </FormBox> */}
+                    <Header />
                 </DialogTitle>
                 <DialogContent>
                     <FormHeader variant="h2">Signup</FormHeader>

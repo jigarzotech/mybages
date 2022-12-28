@@ -14,10 +14,8 @@ function Home() {
     useEffect(() => {
         document.title = "My Bages"
     }, [])
-    // window.addEventListener("scroll", function (event) {
-    //     let scroll_y = this.scrollY;
-    //     console.log(scroll_y);
-    // });
+
+
     return (
         <ThemeProvider theme={theme}>
 

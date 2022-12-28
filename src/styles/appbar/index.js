@@ -4,10 +4,14 @@ import { Colors, DrawerWidth } from "../theme";
 import './style.css'
 export const AppbarContainer = styled(Box)(() => ({
     display: 'flex',
-    marginTop: 4,
-    justifyContent: 'center',
+    // marginTop: 4,
+    justifyContent: 'space-between;',
     alignItems: 'center',
-    padding: '10px 8px',
+    // padding: '10px 8px',
+    width: '100%',
+    background: 'white',
+    color:'black',
+    boxShadow: ' 0 10px 10px -10px  rgba(0,0,0,0.7)',
     ['@media (max-width:450px)']: {
         paddingTop: "30px",
     },
@@ -26,6 +30,7 @@ export const AppbarHeader = styled(Typography)(() => ({
     padding: '4px',
     flexGrow: 1,
     fontSize: '4em',
+    alignItems: 'center',
     color: Colors.secondary,
     ['@media (max-width:450px)']: {
         fontSize: '2em',

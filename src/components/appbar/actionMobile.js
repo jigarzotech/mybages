@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Colors } from "../../styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { deleteUser } from "../../redux/user/userReducer";
 import { deleteProducts } from "../../redux/products/productReducer";
@@ -18,29 +18,37 @@ import { AppbarPersonBtn } from '../../styles/appbar';
 export default function ActionMobile() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
     return (
         <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
                 <React.Fragment>
-                    <AppbarPersonBtn variant="contained" {...bindTrigger(popupState)}>
+                    <AppbarPersonBtn variant="contained" sx={{
+                        color: Colors.secondary, background: Colors.primary,
+                        "&:hover": {
+                            background: Colors.secondary,
+                            color: Colors.primary
+                        },
+                    }} {...bindTrigger(popupState)}>
                         <PersonIcon />
                     </AppbarPersonBtn>
                     <Menu {...bindMenu(popupState)}>
-                        <MenuItem onClick={popupState.close}> <ListItemButton
-                            sx={{
-                                justifyContent: 'center'
-                            }}>
-                            <ListItemIcon
-                                onClick={() => navigate('/mycart')}
+                        <MenuItem onClick={popupState.close}>
+                            <ListItemButton
                                 sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    color: Colors.secondary
+                                    justifyContent: 'center'
                                 }}>
-                                <ShoppingCartIcon />
-                            </ListItemIcon>
-                        </ListItemButton>
+                                <ListItemIcon
+                                    onClick={() => navigate('/mycart')}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        color: location.pathname === '/mycart' && Colors.primary
+                                    }}>
+                                    <ShoppingCartIcon />
+                                </ListItemIcon>
+                            </ListItemButton>
                         </MenuItem>
                         <MenuItem onClick={popupState.close}><ListItemButton
                             sx={{
@@ -51,7 +59,7 @@ export default function ActionMobile() {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    color: Colors.secondary
+                                    color: location.pathname === '/mywishlist' && Colors.primary
                                 }}>
                                 <FavoriteIcon />
                             </ListItemIcon>

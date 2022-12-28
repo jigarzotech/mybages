@@ -1,19 +1,36 @@
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { AppbarContainer, AppbarHeader, MyList } from "../../styles/appbar";
 import SearchIcon from '@material-ui/icons/Search'
 import Actions from "./actions";
 import { useUIContext } from "../../context/ui";
-export default function AppbarDesktop({ matches }) {
+import { useLocation, useNavigate } from "react-router-dom";
+import { Colors } from "../../styles/theme";
+import { useSelector } from "react-redux";
 
+export default function AppbarDesktop({ matches }) {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const user = useSelector((state) => state.user)
+    const userToken = user.user && Object.keys(user.user).length !== 0
+    const auth = userToken;
     const { setShowSearchBox } = useUIContext();
     return (
 
         <AppbarContainer>
-            <AppbarHeader>
-                My Bages
-            </AppbarHeader>
-            <MyList type='row'>
-                <ListItemText primary='Home' />
+            <Box sx={{ alignItems: 'center', display: 'flex', cursor: 'pointer' }} onClick={() => {
+                navigate(auth ? '/home' : '/')
+            }}>
+                <img src={require('../../image/logo.png')} width="50px" height='50px'></img>
+                <AppbarHeader>
+                    My Bages
+                </AppbarHeader>
+            </Box>
+            <MyList type='row' sx={{ cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', color: Colors.dim_grey }}>
+                <ListItemText primary='Home'
+                    sx={{
+                        color: location.pathname === '/home' &&
+                            Colors.primary, borderBottom: location.pathname === '/home' && `1px solid ${Colors.primary}`
+                    }} onClick={() => navigate('/home')} />
                 <ListItemText primary='Categories' />
                 <ListItemText primary='Products' />
                 <ListItemText primary='Contact Us' />

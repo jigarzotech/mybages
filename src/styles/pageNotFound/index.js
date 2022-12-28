@@ -1,27 +1,32 @@
-import Image from '../../image/404.jpg'
+import Image from '../../image/4042.jpg'
 import { makeStyles } from '@mui/styles';
+import { Colors } from '../theme';
 
 export const useStyles = makeStyles({
     container: {
-
-        backgroundImage: `url(${Image})`,
-        // backgroundImage: `linear-gradient(180deg, 
-        //     rgba(0, 0, 0, 0.01), 
-        //     rgba(0, 0, 0, 0.9)),url(${"https://wallpaperaccess.com/full/4219110.jpg"})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center',
-        color: 'white',
-        height: '100vh',
+        background: 'white',
+        color: Colors.primary,
+        height: '84vh',
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         margin: 'auto',
         textAlign: 'center',
     },
+    box1: {
+        width: '50%',
+        backgroundImage: `url(${Image})`,
+        backgroundRepeat: 'no-repeat',
+        // backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+    },
+    box2: {
+        width: '50%',
+    },
     heading: {
-        paddingTop: '100px',
-        fontSize: '6rem'
+        paddingTop: '60px',
+        fontSize: '6rem',
     },
     paraOne: {
         paddingTop: '0px',

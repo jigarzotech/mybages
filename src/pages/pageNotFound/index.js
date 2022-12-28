@@ -1,51 +1,58 @@
-import { Button, Container, Dialog, ThemeProvider, Typography } from '@mui/material';
+import { Button, Container, Dialog, DialogTitle, Typography, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useStyles } from '../../styles/pageNotFound';
 import theme, { Colors } from '../../styles/theme';
-import { withStyles } from '@mui/styles';
-const styles121 = {
-    root: {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'green',
-        height: 48,
-        padding: '0 30px',
-    },
-};
+import '../../styles/appbar/style.css'
+import Header from '../../components/header.js';
+import { ThemeProvider, useTheme } from "@mui/material/styles";
+import AppbarMobile from '../../components/appbar/appbarMobile';
+import AppbarDesktop from '../../components/appbar/appbarDesktop';
+import AppDrawer from '../../components/drawer';
+import { UIProvider } from '../../context/ui';
+import Appbar from '../../components/appbar';
 
-function PageNotFound(props) {
+
+function PageNotFound() {
     const classes = useStyles();
     const navigate = useNavigate()
-    const { classessacsa } = props;
+    const themes = useTheme();
+    const matches = useMediaQuery(themes.breakpoints.down("sm"));
+
     return (
         <ThemeProvider theme={theme}>
-            <Dialog
-                variant="permanant"
-                open={true}
-                fullScreen
-            >
-                <Box className={classes.container}
-                >
-                    <Button className={styles121.root}>Higher-order component</Button>
-                    <Typography variant='h1' className={classes.heading}
-                        fontSize={150}>404</Typography>
-                    <Typography fontSize={22} mt={2}> Page Not Found</Typography>
-                    <Typography className={classes.paraOne} fontSize={20} mt={2}>
-                        Oops,you've lost in space</Typography>
-                    <Typography className={classes.paraTwo} fontSize={15} mt={2}>
-                        we can't find the page that you've looking for...</Typography>
-                    <Box className={classes.buttonDiv} mt={10}>
-                        <Button className={classes.button} variant='contained'
-                            onClick={() => navigate('/')}>Go Home</Button ></Box>
-                </Box>
-            </Dialog>
+
+            <Container
+                maxWidth='xl'
+                sx={{
+                    background: '#fff'
+                }}>
+                <UIProvider>
+                    <Appbar />
+                    <Box className={classes.container} >
+
+                        {matches ? <Box></Box> : <Box className={classes.box1} >
+                        </Box >}
+                        <Box className={classes.box2} sx={{ width: matches ? '100%' : '50%' }}>
+                            <Typography variant='h1' className={classes.heading}
+                                fontSize={150} fontFamily={`'Montez','cursive`}>404</Typography>
+                            <Typography fontSize={25} mt={2} > Page Not Found</Typography>
+                            {/* <Typography className={classes.paraOne} fontSize={20} mt={2}>
+                    Oops,you've lost in space</Typography> */}
+                            <Typography className={classes.paraTwo} fontSize={20} mt={2}>
+                                we can't find the page that you've looking for...</Typography>
+                            <Box className={classes.buttonDiv} mt={10}>
+                                <Button className={classes.button} variant='contained'
+                                    onClick={() => navigate('/')}>Go Home</Button >
+                            </Box>
+                        </Box>
+                    </Box>
+                    <AppDrawer />
+                </UIProvider>
+            </Container>
         </ThemeProvider>
+
     )
 }
-
-// export default PageNotFound
-export default withStyles(styles121)(PageNotFound);
+export default PageNotFound

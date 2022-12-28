@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { ActionIconsContainerDesktop, ActionIconsContainerMobile } from "../../styles/appbar";
 import { Colors } from "../../styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { deleteUser } from "../../redux/user/userReducer";
 import { deleteProducts } from "../../redux/products/productReducer";
@@ -13,6 +13,7 @@ import { deleteProducts } from "../../redux/products/productReducer";
 export default function Actions({ matches }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
     const Component = matches ? ActionIconsContainerMobile :
         ActionIconsContainerDesktop
     return (
@@ -26,7 +27,7 @@ export default function Actions({ matches }) {
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            color: matches && Colors.secondary
+                            color: location.pathname === '/mycart' && Colors.primary
                         }}>
                         <ShoppingCartIcon />
                     </ListItemIcon>
@@ -41,7 +42,7 @@ export default function Actions({ matches }) {
                         sx={{
                             display: 'flex',
                             justifyContent: 'center',
-                            color: matches && Colors.secondary
+                            color: location.pathname === '/mywishlist' && Colors.primary
                         }}>
                         <FavoriteIcon />
                     </ListItemIcon>
