@@ -28,8 +28,8 @@ export default function AppbarDesktop({ matches }) {
             <MyList type='row' sx={{ cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', color: Colors.dim_grey }}>
                 <ListItemText primary='Home'
                     sx={{
-                        color: location.pathname === '/home' &&
-                            Colors.primary, borderBottom: location.pathname === '/home' && `1px solid ${Colors.primary}`
+                        color: location.pathname === '/home' && auth &&
+                            Colors.primary, borderBottom: location.pathname === '/home' && auth && `1px solid ${Colors.primary}`
                     }} onClick={() => navigate('/home')} />
                 <ListItemText primary='Categories' />
                 <ListItemText primary='Products' />

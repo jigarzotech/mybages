@@ -69,30 +69,6 @@ export default function MyCart() {
                 }}>
                 <UIProvider>
                     <Appbar />
-
-                    {/* <DialogTitle
-                sx={{
-                    background: Colors.primary,
-                }}
-            >
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent={"space-between"}
-                >
-                    {/* <Typography className={classes.header} fontSize={30} fontFamily={`'Montez','cursive`}
-                        onClick={() => navigate('/home')}> My Bages</Typography> */}
-                    {/* <Header />
-
-                    <Typography color={Colors.secondary}> My Cart</Typography>
-                    <IconButton
-                        onClick={() => navigate('/home')}>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-            </DialogTitle> */}
-                    {/* {matches ? <AppbarMobile matches={matches} /> : <AppbarDesktop matches={matches} />} */}
-
                     <Box display='flex' justifyContent={'center'}
                         sx={{ p: 4, color: Colors.primary, }}>
                         <Typography variant='h4' sx={{ borderBottom: `2px solid ${Colors.primary}` }}>

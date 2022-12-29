@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Colors } from "../../styles/theme";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser } from "../../redux/user/userReducer";
 import { deleteProducts } from "../../redux/products/productReducer";
 import PersonIcon from '@mui/icons-material/Person';
@@ -19,7 +19,9 @@ export default function ActionMobile() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
-
+    const user = useSelector((state) => state.user)
+    const userToken = user.user && Object.keys(user.user).length !== 0
+    const auth = userToken;
     return (
         <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
@@ -44,7 +46,7 @@ export default function ActionMobile() {
                                     sx={{
                                         display: 'flex',
                                         justifyContent: 'center',
-                                        color: location.pathname === '/mycart' && Colors.primary
+                                        color: location.pathname === '/mycart' && auth && Colors.primary
                                     }}>
                                     <ShoppingCartIcon />
                                 </ListItemIcon>
@@ -59,7 +61,7 @@ export default function ActionMobile() {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    color: location.pathname === '/mywishlist' && Colors.primary
+                                    color: location.pathname === '/mywishlist' && auth && Colors.primary
                                 }}>
                                 <FavoriteIcon />
                             </ListItemIcon>

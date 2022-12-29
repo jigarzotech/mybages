@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, Slide, Box, IconButton, DialogContent, Typography, Button, Stack, Paper, Input, InputAdornment } from "@mui/material";
+import { Slide, Box, IconButton, DialogContent, Typography, Button, Stack, Paper, Input, InputAdornment, Container } from "@mui/material";
 import { Colors } from "../../styles/theme";
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,10 +13,13 @@ import { FormBox, FormPaper, LoginFormControl, FormButton, FormTypography, FormE
 import { ThemeProvider } from "@mui/material/styles";
 import theme from '../../styles/theme'
 import { useForm } from "react-hook-form";
-import { defaultValues, errorMessage, validationSchema } from "../../components/validation";
+import { defaultValues, validationSchema } from "../../components/validation";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupInvalidError, signupInvalidErrorToast, signupSuccess, signupSuccessToast } from "../../components/toast/toastMessage";
 import Header from "../../components/header.js";
+import AppDrawer from "../../components/drawer";
+import { UIProvider } from "../../context/ui";
+import Appbar from "../../components/appbar";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -45,8 +48,7 @@ export default function Signup() {
     const { register, formState: { errors }, handleSubmit, watch } = useForm({
         defaultValues: defaultValues, resolver: yupResolver(validationSchema)
     });
-    // const onSubmit = data => console.log(data);
-    console.log(errors);
+
 
     const submitDataHandler = (data) => {
         // // event.preventDefault()
@@ -86,105 +88,85 @@ export default function Signup() {
     }
     return (
         <ThemeProvider theme={theme}>
-            <Dialog
-                TransitionComponent={SlideTransition}
-                variant="permanant"
-                open={true}
-                fullScreen
-            >
-                <DialogTitle
-                    sx={{ background: Colors.primary }}>
-                    {/* <FormBox>
-                        My Bages
-                    </FormBox> */}
-                    <Header />
-                </DialogTitle>
-                <DialogContent>
-                    <FormHeader variant="h2">Signup</FormHeader>
-                    <FormPaper elevation={3}>
-                        <form className={classes.root} noValidate autoComplete="off"
-                            onSubmit={handleSubmit(submitDataHandler)}>
 
-                            <div>
+            <Container
+                maxWidth='xl'
+                sx={{
+                    background: '#fff'
+                }}>
+                <UIProvider>
+                    <Appbar />
+                    <DialogContent>
+                        <FormHeader variant="h2">Signup</FormHeader>
+                        <FormPaper elevation={3}>
+                            <form className={classes.root} noValidate autoComplete="off"
+                                onSubmit={handleSubmit(submitDataHandler)}>
+
                                 <div>
-                                    <LoginFormControl variant="outlined">
-                                        <Typography color={Colors.info} mt={1}>Name:</Typography>
-                                        <Input
-                                            // id="standard-Email"
-                                            // label="Name"
-                                            // name="name"
-                                            // value={newUser.name || ""}
-                                            // type="text"
-                                            // onChange={inputEvent}
-                                            {...register("name")}
-                                            placeholder='Enter Your Name'
-                                        />
+                                    <div>
+                                        <LoginFormControl variant="outlined">
+                                            <Typography color={Colors.info} mt={1}>Name:</Typography>
+                                            <Input
+                                                {...register("name")}
+                                                placeholder='Enter Your Name'
+                                            />
 
-                                        {errors.name && <FormError role="alert">
-                                            {errorMessage.name}</FormError>}
-                                    </LoginFormControl>
+                                            {errors.name && <FormError role="alert">
+                                                {errors?.name?.message}</FormError>}
+                                        </LoginFormControl>
+                                    </div>
+                                    <div>
+                                        <LoginFormControl variant="outlined">
+                                            <Typography color={Colors.info} mt={1}>Email:</Typography>
+
+                                            <Input
+                                                {...register("email")}
+                                                placeholder='Enter Your Email'
+                                            />
+                                            {errors?.email && <FormError role="alert">{errors?.email?.message}</FormError>}
+
+                                        </LoginFormControl>
+
+                                    </div>
+                                    <div>
+                                        <LoginFormControl variant="outlined">
+
+                                            <Typography color={Colors.info} mt={1}>Password:</Typography>
+                                            <Input
+                                                {...register("password")}
+                                                placeholder='Enter Password'
+                                                type={showPassword ? "text" : "password"}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                        >
+                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                            {errors?.password && <FormError role="alert">
+                                                {errors?.password?.message}
+                                            </FormError>}
+                                        </LoginFormControl>
+
+                                    </div>
                                 </div>
-                                <div>
-                                    <LoginFormControl variant="outlined">
-                                        <Typography color={Colors.info} mt={1}>Email:</Typography>
 
-                                        <Input
-                                            // id="standard-email"
-                                            // label="Email"
-                                            // name="email"
-                                            // value={newUser.email || ""}
-                                            // type="email"
-                                            // onChange={inputEvent}
-
-                                            {...register("email")}
-                                            placeholder='Enter Your Email'
-                                        />
-                                        {errors?.email && <FormError role="alert">{errorMessage.email}</FormError>}
-
-                                    </LoginFormControl>
-
-                                </div>
-                                <div>
-                                    <LoginFormControl variant="outlined">
-
-                                        <Typography color={Colors.info} mt={1}>Password:</Typography>
-                                        <Input
-                                            // name="password"
-                                            // value={newUser.password || ""}
-                                            // type={showPassword ? "text" : "password"}
-                                            // onChange={inputEvent}
-                                            {...register("password")}
-                                            placeholder='Enter Password'
-                                            type={showPassword ? "text" : "password"}
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        onClick={() => setShowPassword(!showPassword)}
-                                                    >
-                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                        />
-                                        {errors?.password && <FormError role="alert">
-                                            {errorMessage.password}
-                                        </FormError>}
-                                    </LoginFormControl>
-
-                                </div>
-                            </div>
-
-                            <FormButton variant="contained"
-                                type="submit">
-                                Submit</FormButton>
-                            <FormTypography lineHeight={2} variant="caption2"
-                                onClick={() => navigate('/')}>
-                                Already have an account?
-                            </FormTypography>
-                        </form>
-                    </FormPaper>
-                </DialogContent>
-            </Dialog>
+                                <FormButton variant="contained"
+                                    type="submit">
+                                    Submit</FormButton>
+                                <FormTypography lineHeight={2} variant="caption2"
+                                    onClick={() => navigate('/')}>
+                                    Already have an account?
+                                </FormTypography>
+                            </form>
+                        </FormPaper>
+                    </DialogContent>
+                    <AppDrawer />
+                </UIProvider>
+            </Container>
         </ThemeProvider >
     )
 }

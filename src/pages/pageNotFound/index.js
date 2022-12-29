@@ -5,10 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStyles } from '../../styles/pageNotFound';
 import theme, { Colors } from '../../styles/theme';
 import '../../styles/appbar/style.css'
-import Header from '../../components/header.js';
 import { ThemeProvider, useTheme } from "@mui/material/styles";
-import AppbarMobile from '../../components/appbar/appbarMobile';
-import AppbarDesktop from '../../components/appbar/appbarDesktop';
 import AppDrawer from '../../components/drawer';
 import { UIProvider } from '../../context/ui';
 import Appbar from '../../components/appbar';
